@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stackly Electrical</title>
+
+<style>
+/* RESET */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Poppins",sans-serif;
+}
+
+body{
+  background:#f4f9ff;
+}
+
+/* ================= NAVBAR ================= */
+.navbar{
+  width:100%;
+  background:blue;
+  color:#fff;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 20px;
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:9999;
+}
+/* ===== LOADER ===== */
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+  animation: fadeOut 1s ease 1s forwards;
+}
+
+.loader-content {
+  text-align: center;
+  position: relative;
+}
+
+.loader-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  animation: spin 3s infinite linear;
+  z-index: 2;
+  position: relative;
+}
+
+.pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120px;
+  height: 120px;
+  transform: translate(-50%, -50%);
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite ease-in-out;
+  z-index: 1;
+}
+
+#loader p {
+  color: white;
+  margin-top: 15px;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  animation: fadeText 3s infinite alternate;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+  70% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.2; }
+  100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+}
+
+@keyframes fadeText {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+
+/* LOGO */
+.logo-area img{
+  height:50px;
+  width:auto;
+}
+
+/* MENU DESKTOP */
+.nav-menu{
+  display:flex;
+  gap:25px;
+  list-style:none;
+}
+
+.nav-menu li a{
+  color:white;
+  text-decoration:none;
+  font-size:16px;
+  padding:8px 12px;
+  border-radius:8px;
+}
+
+.nav-menu li a:hover{
+  background:#19376d;
+}
+
+/* DROPDOWN CLICK */
+.dropdown{
+  position:relative;
+}
+
+.dropdown-menu{
+  position:absolute;
+  top:42px;
+  left:0;
+  background:#0b2447;
+  width:160px;
+  border-radius:8px;
+  list-style:none;
+  padding:10px 0;
+  border:1px solid rgba(255,255,255,0.2);
+  display:none;
+}
+
+.dropdown.open .dropdown-menu{
+  display:block;
+}
+
+.dropdown-menu li a{
+  padding:12px 15px;
+  display:block;
+  font-size:15px;
+  color:white;
+}
+
+.dropdown-menu li a:hover{
+  background:#19376d;
+}
+
+/* HAMBURGER */
+.hamburger{
+  display:none;
+  flex-direction:column;
+  gap:5px;
+  cursor:pointer;
+}
+
+.hamburger span{
+  width:28px;
+  height:3px;
+  background:white;
+  border-radius:4px;
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:768px){
+
+  .hamburger{
+    display:flex;
+  }
+
+  .nav-menu{
+    position:fixed;
+    top:70px;
+    right:-100%;
+    width:260px;
+    height:calc(100vh - 70px);   /* FIXED HEIGHT */
+    background:#0b2447;
+    flex-direction:column;
+    transition:0.3s;
+    overflow-y:scroll;           /* ENABLE SCROLL */
+    padding-top:15px;
+    padding-bottom:40px;
+  }
+
+  .nav-menu.active{
+    right:0;
+  }
+
+  .nav-menu li{
+    width:100%;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+
+  .nav-menu li a{
+    display:block;
+    width:100%;
+    padding:15px 8px;
+    font-size:18px;
+  }
+
+  /* Mobile dropdown */
+  .dropdown-menu{
+    position:relative;
+    top:0;
+    width:100%;
+    border-radius:0;
+    background:#19376d;
+    display:none;
+  }
+
+  .dropdown.open .dropdown-menu{
+    display:block;
+  }
+}
+</style>
+</head>
+
+<body>
+<!-- ===== HEADER ===== -->
+  <header>
+    <div id="loader">
+      <div class="loader-content">
+        <div class="pulse-ring"></div>
+        <p>Loading Electrical EV...</p>
+      </div>
+    </div>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+
+  <div class="logo-area">
+    <img src="Screenshot (7) (1) (1).webp" alt="Logo">
+  </div>
+
+ <ul class="nav-menu" id="navMenu">
+
+  <!-- HOME DROPDOWN -->
+  <li class="dropdown">
+    <a href="#" class="dropdown-btn">Home ▾</a>
+    <ul class="dropdown-menu">
+      <li><a href="index.html">Home 1</a></li>
+      <li><a href="Home2.html">Home 2</a></li>
+    </ul>
+  </li>
+
+  <li><a href="dasboard.html">Dashboard</a></li>
+  <li><a href="models.html">Models</a></li>
+  <li><a href="technology.html">Technology</a></li>
+
+  <!-- NEW BUY DROPDOWN -->
+  <li class="dropdown">
+    <a href="#" class="dropdown-btn">Buy ▾</a>
+    <ul class="dropdown-menu">
+      <li><a href="buy bike.html">Buy a Bike</a></li>
+      <li><a href="buyauto.html">Buy a Auto</a></li>
+    </ul>
+  </li>
+
+  <li><a href="about.html">About</a></li>
+  <li><a href="blog.html">Blog</a></li>
+  <li><a href="contact.html">Contact</a></li>
+  <li><a href="signup.html">Signup</a></li>
+
+</ul>
+
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+</nav>
+
+<!-- ================= JS ================= -->
+
+<script>
+/* MOBILE MENU */
+const hamburger = document.getElementById("hamburger");
+const navMenu = document.getElementById("navMenu");
+
+hamburger.addEventListener("click", () => {
+  navMenu.classList.toggle("active");
+});
+
+/* CLICK DROPDOWN WORKING FOR DESKTOP + MOBILE */
+document.querySelectorAll(".dropdown-btn").forEach(btn => {
+  btn.addEventListener("click", function(e){
+    e.preventDefault();
+    this.parentElement.classList.toggle("open");
+  });
+});
+</script>
+
+</body>
+</html>
+
+</body>
+</html>
+
+
+
+</body>
+</html>
+
+
+
+<style>
+/* ================= RESET ================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Poppins,sans-serif;
+}
+
+/* ================= BODY ================= */
+body{
+  background:#0a0f2c;
+  color:white;
+  overflow-x:hidden;
+}
+
+/* ================= FLOATING COLORFUL DOTS ================= */
+.floating-dots{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+}
+.floating-dots span{
+  position:absolute;
+  border-radius:50%;
+  animation:floatUp linear infinite;
+  opacity:.9;
+}
+@keyframes floatUp{
+  from{transform:translateY(0);}
+  to{transform:translateY(-1600px);}
+}
+
+/* ================= HERO ================= */
+.hero{
+  padding:130px 20px 100px;
+  text-align:center;
+  background:linear-gradient(135deg,#071426,#001a33,#033a58);
+}
+.hero h1{
+  font-size:46px;
+  font-weight:700;
+  background:linear-gradient(135deg,#21c6ff,#b721ff);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+.hero p{
+  font-size:18px;
+  opacity:.85;
+  margin-top:10px;
+}
+
+/* ================= EV CARDS ================= */
+.hero-ev{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:30px;
+  margin-top:55px;
+}
+.hero-ev-card{
+  width:260px;
+  background:rgba(255,255,255,.08);
+  padding:16px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.12);
+  transition:.4s;
+  text-align:left;
+}
+.hero-ev-card:hover{
+  transform:translateY(-12px);
+  box-shadow:0 0 25px rgba(33,198,255,.6);
+}
+.hero-ev-card img{
+  width:100%;
+  height:140px;
+  object-fit:cover;
+  border-radius:12px;
+}
+.ev-title{
+  font-size:20px;
+  margin-top:12px;
+}
+.ev-info{
+  font-size:14px;
+  opacity:.8;
+}
+
+/* ================= TECHNOLOGY ================= */
+.tech-section{
+  padding:90px 20px;
+  background:#071426;
+}
+.tech-title{
+  text-align:center;
+  font-size:38px;
+  background:linear-gradient(135deg,#21c6ff,#b721ff);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+.tech-sub{
+  text-align:center;
+  opacity:.8;
+  margin:14px 0 45px;
+}
+.tech-grid{
+  max-width:1100px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:28px;
+}
+.tech-card{
+  background:#031b33;
+  padding:26px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.15);
+  transition:.4s;
+}
+.tech-card:hover{
+  transform:translateY(-10px);
+  box-shadow:0 0 30px rgba(0,200,255,.5);
+}
+
+/* ================= SERVICES (WITH IMAGES) ================= */
+.services{
+  padding:90px 20px;
+  text-align:center;
+}
+.services h2{
+  font-size:36px;
+  background:linear-gradient(135deg,#21c6ff,#b721ff);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+.service-grid{
+  margin-top:45px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:28px;
+  max-width:1200px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.service-card{
+  background:#041024;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.12);
+  overflow:hidden;
+  transition:.4s;
+  text-align:left;
+}
+.service-card img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  transition:.6s;
+}
+.service-card:hover img{
+  transform:scale(1.1);
+}
+.service-content{
+  padding:22px;
+}
+.service-card h3{
+  font-size:20px;
+  margin-bottom:6px;
+}
+.service-card p{
+  font-size:14px;
+  opacity:.8;
+}
+.service-card:hover{
+  transform:translateY(-12px);
+  box-shadow:0 0 30px rgba(33,198,255,.6);
+}
+
+/* ================= SCROLL REVEAL ================= */
+.reveal{
+  opacity:0;
+  transform:translateY(60px);
+  transition:1s cubic-bezier(.19,1,.22,1);
+}
+.reveal.active{
+  opacity:1;
+  transform:none;
+}
+.delay-1{transition-delay:.15s;}
+.delay-2{transition-delay:.3s;}
+.delay-3{transition-delay:.45s;}
+.delay-4{transition-delay:.6s;}
+</style>
+</head>
+
+<body>
+
+<!-- FLOATING DOTS -->
+<div class="floating-dots">
+<script>
+const colors=["#21c6ff","#b721ff","#00f5d4","#ff4ecd"];
+for(let i=0;i<70;i++){
+  document.write(
+    `<span style="
+      left:${Math.random()*100}%;
+      top:${Math.random()*1600}px;
+      width:${Math.random()*10+6}px;
+      height:${Math.random()*10+6}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${Math.random()*50+30}s;
+    "></span>`
+  );
+}
+</script>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <h1 class="reveal">Discover the Future of Mobility</h1>
+  <p class="reveal delay-1">Smart • Stylish • Powerful Electric Vehicles</p>
+
+  <div class="hero-ev">
+    <div class="hero-ev-card reveal delay-1">
+      <img src="sparkxr.webp">
+      <div class="ev-title">Stackly Spark XR</div>
+      <div class="ev-info">Range: 180 km | Charge: 3 hrs</div>
+    </div>
+
+    <div class="hero-ev-card reveal delay-2">
+      <img src="sparkxv.webp">
+      <div class="ev-title">Stackly Bolt S2</div>
+      <div class="ev-info">Range: 220 km | Speed: 75 km/h</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STACKLY EV TECHNOLOGY SECTION ================= -->
+
+<style>
+.tech-section{
+  margin-top:40px; /* Space under navbar */
+  padding:60px 20px;
+  background:#071426;
+  color:white;
+}
+
+/* TITLE */
+.tech-title{
+  text-align:center;
+  font-size:40px;
+  font-weight:800;
+  background:linear-gradient(135deg,#21c6ff,#b721ff);
+  -webkit-background-clip:text;
+  color:transparent;
+  margin-bottom:15px;
+}
+
+.tech-sub{
+  text-align:center;
+  font-size:18px;
+  opacity:0.8;
+  margin-bottom:40px;
+}
+
+/* GRID */
+.tech-grid{
+  max-width:1100px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:25px;
+}
+
+/* TECHNOLOGY CARD */
+.tech-card{
+  background:#031b33;
+  padding:25px;
+  border-radius:16px;
+  text-align:center;
+  border:1px solid rgba(255,255,255,0.15);
+  box-shadow:0 0 18px rgba(0,200,255,0.25);
+  transition:0.3s;
+  position:relative;
+  overflow:hidden;
+}
+
+.tech-card:hover{
+  transform:translateY(-10px);
+  box-shadow:0 0 30px rgba(0,200,255,0.5);
+}
+
+.tech-card img{
+  width:70px;
+  margin-bottom:12px;
+  filter:drop-shadow(0 0 5px rgba(0,200,255,0.5));
+}
+
+.tech-card h3{
+  font-size:22px;
+  margin-bottom:10px;
+  background:linear-gradient(135deg,#21c6ff,#b721ff);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.tech-card p{
+  font-size:14px;
+  opacity:0.8;
+  line-height:1.6;
+}
+
+/* EFFECT GLOW RING */
+.tech-card::before{
+  content:"";
+  position:absolute;
+  width:140%;
+  height:140%;
+  background:radial-gradient(circle,rgba(0,200,255,0.13),transparent 60%);
+  top:-50%;
+  left:-50%;
+  transform:rotate(45deg);
+  transition:0.6s;
+  opacity:0;
+}
+
+.tech-card:hover::before{
+  opacity:1;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  .tech-title{ font-size:32px; }
+}
+</style>
+
+
+<section class="tech-section">
+
+  <h1 class="tech-title">Stackly EV Technology</h1>
+  <p class="tech-sub">Advanced engineering designed for performance, safety, and smart connectivity.</p>
+
+  <div class="tech-grid">
+
+    <!-- TECH 1 -->
+    <div class="tech-card">
+      <img src="bms.webp">
+      <h3>Battery Management System (BMS)</h3>
+      <p>
+        Intelligent BMS monitors temperature, performance and stabilizes 
+        power delivery for maximum battery life and safety.
+      </p>
+    </div>
+
+    <!-- TECH 2 -->
+    <div class="tech-card">
+      <img src="high torque.webp">
+      <h3>High Torque Motor</h3>
+      <p>
+        Stackly’s next-gen BLDC and PMSM motors deliver instant torque,
+        silent ride experience and powerful acceleration.
+      </p>
+    </div>
+
+    <!-- TECH 3 -->
+    <div class="tech-card">
+      <img src="iot1.webp">
+      <h3>IoT Smart Connectivity</h3>
+      <p>
+        Real-time GPS tracking, app control, anti-theft alerts, 
+        ride analytics, and remote lock/unlock features.
+      </p>
+    </div>
+
+    <!-- TECH 4 -->
+    <div class="tech-card">
+      <img src="fastcharg.webp">
+      <h3>Fast Charging System</h3>
+      <p>
+        0 to 80% charging in just 2–3 hours with optimized energy
+        distribution and heat management.
+      </p>
+    </div>
+
+    <!-- TECH 5 -->
+    <div class="tech-card">
+      <img src="regenerative.webp">
+      <h3>Regenerative Braking</h3>
+      <p>
+        Converts braking energy into battery power to extend range 
+        while improving safety and control.
+      </p>
+    </div>
+
+    <!-- TECH 6 -->
+    <div class="tech-card">
+      <img src="ao powe.webp">
+      <h3>AI-Powered Controller</h3>
+      <p>
+        Smart EV controller monitors load, speed, temperature and 
+        adaptively optimizes power for the smoothest ride.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+<!-- TECHNOLOGY -->
+<section class="tech-section">
+  <h2 class="tech-title reveal">EV Technology</h2>
+  <p class="tech-sub reveal delay-1">Built for performance & safety</p>
+
+  <div class="tech-grid">
+    <div class="tech-card reveal">Battery Management System</div>
+    <div class="tech-card reveal delay-1">High Torque Motor</div>
+    <div class="tech-card reveal delay-2">IoT Connectivity</div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services">
+  <h2 class="reveal">Our EV Services</h2>
+
+  <div class="service-grid">
+    <div class="service-card reveal delay-1">
+      <img src="Evcharging.webp">
+      <div class="service-content">
+        <h3>Fast EV Charging</h3>
+        <p>High-speed charging stations nationwide.</p>
+      </div>
+    </div>
+
+    <div class="service-card reveal delay-2">
+      <img src="battery.webp">
+      <div class="service-content">
+        <h3>Doorstep Servicing</h3>
+        <p>Certified technicians at your location.</p>
+      </div>
+    </div>
+
+    <div class="service-card reveal delay-3">
+      <img src="warranty.webp">
+      <div class="service-content">
+        <h3>Battery Warranty</h3>
+        <p>Long-term battery protection plans.</p>
+      </div>
+    </div>
+
+    <div class="service-card reveal delay-4">
+      <img src="homecarimg.webp">
+      <div class="service-content">
+        <h3>Test Ride Facility</h3>
+        <p>Experience electric performance first-hand.</p>
+      </div>
+    </div>
+
+    <div class="service-card reveal delay-1">
+      <img src="custmorsupport.webp">
+      <div class="service-content">
+        <h3>Roadside Assistance</h3>
+        <p>24/7 support for EV riders.</p>
+      </div>
+    </div>
+
+    <div class="service-card reveal delay-2">
+      <img src="enquiry.webp">
+      <div class="service-content">
+        <h3>Software Updates</h3>
+        <p>Smart OTA updates for your EV.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCROLL REVEAL SCRIPT -->
+<script>
+const revealEls=document.querySelectorAll(".reveal");
+function revealOnScroll(){
+  const h=window.innerHeight;
+  revealEls.forEach(el=>{
+    if(el.getBoundingClientRect().top<h-120){
+      el.classList.add("active");
+    }
+  });
+}
+window.addEventListener("scroll",revealOnScroll);
+window.addEventListener("load",revealOnScroll);
+</script>
+
+</body>
+</html>
+<style>
+/* ================= EV SLIDER ================= */
+.ev-slider-section{
+  padding:100px 20px;
+  background:linear-gradient(135deg,#020617,#030a1f,#020617);
+  overflow:hidden;
+}
+
+.ev-slider-title{
+  text-align:center;
+  font-size:38px;
+  margin-bottom:12px;
+  background:linear-gradient(135deg,#22d3ee,#a855f7);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.ev-slider-sub{
+  text-align:center;
+  opacity:.75;
+  margin-bottom:50px;
+}
+
+/* ===== SLIDER TRACK ===== */
+.ev-slider{
+  display:flex;
+  width:max-content;
+  gap:30px;
+  animation:slide-desktop 35s linear infinite;
+}
+
+/* DESKTOP SPEED */
+@keyframes slide-desktop{
+  from{ transform:translateX(0); }
+  to{ transform:translateX(-50%); }
+}
+
+/* ===== CARD ===== */
+.ev-slide-card{
+  width:300px; /* FIXED WIDTH */
+  flex-shrink:0;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:20px;
+  overflow:hidden;
+  transition:.3s;
+  box-shadow:0 0 20px rgba(34,211,238,.2);
+}
+
+.ev-slide-card:hover{
+  transform:translateY(-12px) scale(1.03);
+  box-shadow:0 0 35px rgba(168,85,247,.6);
+}
+
+.ev-slide-card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+}
+
+.ev-slide-content{
+  padding:20px;
+}
+
+.ev-slide-content h3{
+  font-size:20px;
+  margin-bottom:6px;
+}
+
+.ev-slide-content p{
+  font-size:14px;
+  opacity:.8;
+}
+
+/* ===== MOBILE FIX ===== */
+@media(max-width:600px){
+
+  .ev-slider{
+    gap:16px;
+    animation:slide-mobile 35s linear infinite; /* SLOWER */
+  }
+
+  .ev-slide-card{
+    width:45vw; /* 2 cards visible */
+  }
+
+  @keyframes slide-mobile{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-60%); }
+  }
+}
+
+</style>
+<section class="ev-slider-section">
+  <h2 class="ev-slider-title">EV Charging & Electric Vehicles</h2>
+  <p class="ev-slider-sub">
+    Smart charging • Sustainable mobility • Next-gen EVs
+  </p>
+
+  <div class="ev-slider">
+
+    <!-- EV SCOOTER -->
+    <div class="ev-slide-card">
+      <img src="evswift.webp">
+      <div class="ev-slide-content">
+        <h3>Electric Scooter Pro</h3>
+        <p>Range: 180km • Fast charge • Smart dashboard</p>
+      </div>
+    </div>
+
+    <!-- EV CAR -->
+    <div class="ev-slide-card">
+      <img src="falcon.webp">
+      <div class="ev-slide-content">
+        <h3>Electric SUV</h3>
+        <p>Range: 450km • AI safety • Zero emission</p>
+      </div>
+    </div>
+
+    <!-- EV CHARGING -->
+    <div class="ev-slide-card">
+      <img src="sparkxv.webp">
+      <div class="ev-slide-content">
+        <h3>Ultra Fast EV Charging</h3>
+        <p>80% charge in 30 mins • DC Fast Chargers</p>
+      </div>
+    </div>
+
+    <!-- EV BIKE -->
+    <div class="ev-slide-card">
+      <img src="sparkxr.webp">
+      <div class="ev-slide-content">
+        <h3>EV Sports Bike</h3>
+        <p>High torque • Silent power • Sport mode</p>
+      </div>
+    </div>
+
+    <!-- DUPLICATE FOR LOOP EFFECT -->
+    <div class="ev-slide-card">
+      <img src="voltprime.webp">
+      <div class="ev-slide-content">
+        <h3>Smart City EV</h3>
+        <p>IoT connected • GPS tracking • App control</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ================= FOOTER START ================= -->
+<style>
+
+/* FOOTER BACKGROUND */
+footer{
+  background: green;
+  color:#fff;
+  padding:60px 8%;
+  margin-top:80px;
+  position:relative;
+  overflow:hidden;
+  animation: footerFade 1s ease forwards;
+}
+
+/* Fade animation */
+@keyframes footerFade{
+  from{opacity:0; transform:translateY(40px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* SOFT MOVING BACKLIGHT ANIMATION */
+footer::before{
+  content:"";
+  position:absolute;
+  top:-100px;
+  left:0;
+  width:120%;
+  height:200px;
+  background:radial-gradient(circle,#00eaff33,#000d18);
+  animation: moveLight 6s infinite linear;
+}
+@keyframes moveLight{
+  0%{transform:translateX(-30%);}
+  100%{transform:translateX(100%);}
+}
+
+/* GRID */
+.footer-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:40px;
+  align-items:flex-start;
+  position:relative;
+  z-index:2;
+}
+
+/* LEFT SIDE */
+.footer-left img{
+  height:60px;
+  margin-bottom:10px;
+  animation: fadeUp 1s ease forwards;
+  opacity:0;
+}
+.footer-left p{
+  opacity:0.85;
+  margin:8px 0 15px;
+  line-height:1.5;
+  animation: fadeUp 1.2s ease forwards;
+  opacity:0;
+}
+
+/* FADE UP ANIMATION */
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* SOCIAL ICON HOVER FLOAT */
+.social-icons{
+  display:flex;
+  gap:12px;
+  margin-top:10px;
+}
+.social-icons a{
+  height:45px;
+  width:45px;
+  border-radius:50%;
+  background:#ffffff15;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  transition:.3s;
+  animation: fadeUp 1.4s ease forwards;
+  opacity:0;
+}
+.social-icons a:hover{
+  transform:translateY(-6px) scale(1.1);
+  background:#00eaff;
+}
+.social-icons img{
+  height:22px;
+  width:22px;
+}
+
+/* CENTER LINKS */
+.footer-links h3,
+.footer-contact h3{
+  margin-bottom:12px;
+  font-size:22px;
+  animation: fadeUp 1s ease forwards;
+  opacity:0;
+  color:#00eaff;
+  text-shadow:0 0 10px #00eaff55;
+}
+
+.footer-links a{
+  display:block;
+  text-decoration:none;
+  color:#cbd5e1;
+  margin:6px 0;
+  overflow:hidden;
+  position:relative;
+  animation: linkSlide .6s ease forwards;
+  opacity:0;
+}
+
+/* Slide links one by one */
+.footer-links a:nth-child(1){ animation-delay:.3s; }
+.footer-links a:nth-child(2){ animation-delay:.4s; }
+.footer-links a:nth-child(3){ animation-delay:.5s; }
+.footer-links a:nth-child(4){ animation-delay:.6s; }
+.footer-links a:nth-child(5){ animation-delay:.7s; }
+.footer-links a:nth-child(6){ animation-delay:.8s; }
+.footer-links a:nth-child(7){ animation-delay:.9s; }
+.footer-links a:nth-child(8){ animation-delay:1s; }
+.footer-links a:nth-child(9){ animation-delay:1.1s; }
+.footer-links a:nth-child(10){ animation-delay:1.2s; }
+
+@keyframes linkSlide{
+  from{opacity:0; transform:translateX(-20px);}
+  to{opacity:1; transform:translateX(0);}
+}
+
+.footer-links a:hover{
+  color:#00eaff;
+  transform:translateX(6px);
+}
+
+/* RIGHT CONTACT */
+.footer-contact p{
+  margin:6px 0;
+  opacity:.85;
+  animation: fadeUp 1s ease forwards;
+  opacity:0;
+}
+
+/* SUBSCRIBE BAR */
+.subscribe-box{
+  margin-top:15px;
+  display:flex;
+  animation: fadeUp 1.4s ease forwards;
+  opacity:0;
+}
+
+.subscribe-box input{
+  width:70%;
+  padding:10px;
+  border:none;
+  border-radius:6px 0 0 6px;
+  outline:none;
+  background:#ffffff10;
+  color:black;
+  transition:.3s;
+}
+.subscribe-box input:focus{
+  box-shadow:0 0 10px #00eaffaa;
+}
+
+.subscribe-box button{
+  width:30%;
+  border:none;
+  background:#00eaff;
+  color:#000;
+  font-weight:600;
+  cursor:pointer;
+  border-radius:0 6px 6px 0;
+  transition:.3s;
+}
+.subscribe-box button:hover{
+  background:#4ade80;
+}
+
+/* COPYRIGHT */
+.footer-bottom{
+  text-align:center;
+  padding-top:20px;
+  margin-top:30px;
+  border-top:1px solid #1e293b;
+  opacity:0;
+  animation: fadeUp 1.4s ease forwards;
+}
+
+/* MOBILE */
+/* MOBILE */
+@media(max-width:600px){
+
+  footer{
+    text-align:center; /* Keep entire footer centered */
+  }
+
+  .social-icons{
+    justify-content:center;
+  }
+
+  /* QUICK LINKS heading stays center */
+  .footer-links h3{
+    text-align:center !important;
+    width:100%;
+  }
+
+  /* QUICK LINKS items → left aligned */
+  .footer-links a{
+    text-align:left !important;
+    width:100%;
+    display:block;
+    margin-left:120px;       /* ensure left alignment */
+    padding-left:0;      /* ensure start alignment */
+  }
+
+  .subscribe-box{
+    flex-direction:column;
+  }
+
+  .subscribe-box input,
+  .subscribe-box button{
+    width:100%;
+    border-radius:6px;
+    margin-bottom:10px;
+  }
+}
+
+
+</style>
+
+
+<footer>
+  <div class="footer-container">
+
+    <!-- LEFT SIDE -->
+    <div class="footer-left">
+      <img src="Screenshot (7) (1) (1).webp" alt="Company Logo">
+      <p>Leading the future of EV technology with advanced, sustainable and powerful electric mobility..</p>
+
+      <div class="social-icons">
+        <a href="404.html"><img src="facebook.webp" alt="Facebook"></a>
+        <a href="404.html"><img src="twitter-logo.webp" alt="Twitter"></a>
+        <a href="404.html"><img src="linkedin.webp" alt="LinkedIn"></a>
+        <a href="404.html"><img src="instagram.webp" alt="Instagram"></a>
+      </div>
+    </div>
+
+    <!-- CENTER LINKS -->
+    <!-- CENTER LINKS -->
+    <div class="footer-links">
+  <h3>Quick Links</h3>
+
+  
+  <ul>
+  <a href="index.html">Home</a>
+  <a href="dasboard.html">Dashboard</a>
+  <a href="models.html">Models</a>
+  <a href="technology.html">Technology</a>
+  <a href="buy bike.html">Buy a Bike</a>
+  <a href="buyauto.html">Buy an Auto</a>
+  <a href="about.html">About</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+  <a href="signup.html">Signup</a>
+</ul>
+</div>
+
+    <!-- RIGHT CONTACT -->
+    <div class="footer-contact">
+      <h3>Contact Us</h3>
+      <p>📍 Bengaluru, Karnataka</p>
+      <p>📞 +91 98765 43210</p>
+      <p>✉ support@stacklyev.com</p>
+
+      
+    </div>
+
+  </div>
+
+  <p class="footer-bottom">© 2025 Stackly EV. All Rights Reserved.</p>
+</footer>
+
+<!-- ================= FOOTER END ================= -->
